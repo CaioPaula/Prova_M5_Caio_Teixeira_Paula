@@ -14,7 +14,7 @@ def main():
             <li><a href="/novo_form">Novo caminho</a></li>
             <li><a href="/pegar_caminho_form">Pegar caminho</a></li>
             <li><a href="/listas_caminhos">Lista de caminhos</a></li>
-            <li><a href="/atualizar">Atualiza caminho</a></li>
+            <li><a href="/update_form">Atualiza caminho</a></li>
             <li><a href="/deletar">Deletar caminho</a></li>
         </ul>
 """
@@ -65,6 +65,26 @@ def get_all_routes():
 
     return f"<ul>{routes_list}</ul>"
 
+
+@server.route("/update_form")
+def update_route_form():
+    return render_template('update_form.html')
+
+
+@server.route('/update', methods=["POST"])
+def update_route():
+    name = str(request.form.get("name"))
+    x = float(request.form.get('x'))
+    y = float(request.form.get('y'))
+    z = float(request.form.get('z'))
+    r = float(request.form.get('r'))
+
+    Rotues = Query()
+    route = db.search(Rotues.name == name)[0]
+
+
+
+    db.update({"x": x, "y":y, "z":z, "r":r}, Rotues.name == name)
 
 
 if __name__ == "__main__":
